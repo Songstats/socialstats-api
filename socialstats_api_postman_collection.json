@@ -1,0 +1,1994 @@
+{
+  "info": {
+    "_postman_id": "b7dc314a-c7ee-f73f-ef47-ea4d47921b23",
+    "name": "Socialstats API",
+    "description": "API Access to Creator and Social Content Data\n\nEnterprise API collection generated from docs/socialstats_openapi.yaml and live Rails Enterprise routes.\nSet the `api_key` collection variable before sending authenticated requests. The collection uses the `apikey` header for authentication. OAuth callback/status endpoints may also support short-lived state-token access as documented.\n\nPostman exports collections as JSON. This file uses the Postman Collection v2.1 schema.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{api_key}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Response status is below 500', function () {",
+          "  pm.expect(pm.response.code).to.be.below(500);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.socialstats.com/enterprise/v1",
+      "type": "string",
+      "description": "Socialstats Enterprise API base URL."
+    },
+    {
+      "key": "api_key",
+      "value": "",
+      "type": "string",
+      "description": "Set this to your Socialstats Enterprise API key. It is sent in the apikey header."
+    },
+    {
+      "key": "accept_encoding",
+      "value": "gzip, deflate, br",
+      "type": "string"
+    },
+    {
+      "key": "source",
+      "value": "all",
+      "type": "string",
+      "description": "Use all or a comma-separated source list such as youtube,instagram,tiktok,facebook."
+    },
+    {
+      "key": "socialstats_creator_id",
+      "value": "0y6vlkgu",
+      "type": "string",
+      "description": "DONT BLINK Socialstats creator ID used by the examples."
+    },
+    {
+      "key": "youtube_post_id",
+      "value": "hpEwd2pDkKc",
+      "type": "string"
+    },
+    {
+      "key": "authorized_youtube_post_id",
+      "value": "06Gp4vwQz5E",
+      "type": "string"
+    },
+    {
+      "key": "instagram_post_id",
+      "value": "DZ-B7_vDNli",
+      "type": "string"
+    },
+    {
+      "key": "facebook_post_id",
+      "value": "438173599976898_1572033048267391",
+      "type": "string"
+    },
+    {
+      "key": "tiktok_post_id",
+      "value": "7650839223540403474",
+      "type": "string"
+    },
+    {
+      "key": "country_code",
+      "value": "DE",
+      "type": "string"
+    },
+    {
+      "key": "start_date",
+      "value": "2026-06-18",
+      "type": "string"
+    },
+    {
+      "key": "end_date",
+      "value": "2026-06-26",
+      "type": "string"
+    },
+    {
+      "key": "limit",
+      "value": "20",
+      "type": "string"
+    },
+    {
+      "key": "offset",
+      "value": "0",
+      "type": "string"
+    },
+    {
+      "key": "search_query",
+      "value": "DONT BLINK",
+      "type": "string"
+    },
+    {
+      "key": "source_link",
+      "value": "https://www.instagram.com/dontblinkmusic",
+      "type": "string",
+      "description": "Example creator source link used by link_request endpoints."
+    },
+    {
+      "key": "metric",
+      "value": "views",
+      "type": "string"
+    },
+    {
+      "key": "scope",
+      "value": "total",
+      "type": "string"
+    },
+    {
+      "key": "tier",
+      "value": "4",
+      "type": "string"
+    },
+    {
+      "key": "milestones",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "comments",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "with_links",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "with_aggregates",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "authorization_source_id",
+      "value": "youtube",
+      "type": "string"
+    },
+    {
+      "key": "return_url",
+      "value": "https://customer.example.com/socialstats/oauth-return",
+      "type": "string"
+    },
+    {
+      "key": "external_reference",
+      "value": "client_creator_123",
+      "type": "string"
+    },
+    {
+      "key": "include_inactive",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "state_token",
+      "value": "uR3h5Yy4s...",
+      "type": "string"
+    },
+    {
+      "key": "authorization_id",
+      "value": "42",
+      "type": "string"
+    },
+    {
+      "key": "oauth_code",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "oauth_error",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Creators",
+      "item": [
+        {
+          "name": "Get Creator Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/info?socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "info"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns metadata information for a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/stats?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                }
+              ]
+            },
+            "description": "Returns current summary statistics for a creator filtered by source. Public and authorized current-stat endpoints use the same category/timeframe response structure, such as `general.total`.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/historic_stats?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "with_aggregates",
+                  "value": "{{with_aggregates}}",
+                  "description": "Includes aggregate values where available for historic source statistics.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic creator-level statistics filtered by source and date range. Set `with_aggregates=true` to include additional source aggregate fields where available. For per-post historic views, likes, comments, shares, saves, and reposts, use `/posts/historic_stats`.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n- with_aggregates (optional): Includes aggregate values where available for historic source statistics. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Audience",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/audience?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "audience"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                }
+              ]
+            },
+            "description": "Returns audience information for a creator filtered by source.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Audience Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/audience/details?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}&country_code={{country_code}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "audience",
+                "details"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "country_code",
+                  "value": "{{country_code}}",
+                  "description": "A two-letter country code."
+                }
+              ]
+            },
+            "description": "Returns detailed audience information for a creator in a specific country filtered by source.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- country_code (required): A two-letter country code. Example: US.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Content",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/content?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "content"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}",
+                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "{{offset}}",
+                  "description": "Specifies the offset of the limited results being returned.",
+                  "disabled": true
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns public Instagram, YouTube, and TikTok post-level content for a creator, grouped into one array per source. Facebook posts are not returned. Limit and offset apply to each source array.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Top Posts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/top_posts?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "top_posts"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "metric",
+                  "value": "{{metric}}",
+                  "description": "Metric used to rank top posts. Legacy values such as views_total are also accepted.",
+                  "disabled": true
+                },
+                {
+                  "key": "scope",
+                  "value": "{{scope}}",
+                  "description": "Scope used to rank top posts.",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}",
+                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "{{offset}}",
+                  "description": "Specifies the offset of the limited results being returned.",
+                  "disabled": true
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns the top public Instagram, YouTube, and TikTok posts for a creator, grouped into one object per source. Facebook posts are not returned. Limit and offset apply to each source.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- metric (optional): Metric used to rank top posts. Legacy values such as views_total are also accepted. Example: views.\n- scope (optional): Scope used to rank top posts. Example: total.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Creator Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/activities?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "activities"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}",
+                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "{{offset}}",
+                  "description": "Specifies the offset of the limited results being returned.",
+                  "disabled": true
+                },
+                {
+                  "key": "milestones",
+                  "value": "{{milestones}}",
+                  "description": "Include Milestone Activities.",
+                  "disabled": true
+                },
+                {
+                  "key": "comments",
+                  "value": "{{comments}}",
+                  "description": "Include Comment Activities.",
+                  "disabled": true
+                },
+                {
+                  "key": "tier",
+                  "value": "{{tier}}",
+                  "description": "Filter Activities by importance. Tier 4 is the lowest tier that returns all activities. Tier 1 is the highest tier that returns only the most significant activities.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns the latest activities for a creator filtered by source.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n- milestones (optional): Include Milestone Activities. Example: true.\n- comments (optional): Include Comment Activities. Example: true.\n- tier (optional): Filter Activities by importance. Tier 4 is the lowest tier that returns all activities. Tier 1 is the highest tier that returns only the most significant activities. Example: 4.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Creators",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/search?q={{search_query}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "{{search_query}}",
+                  "description": "Search Query."
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}",
+                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "{{offset}}",
+                  "description": "Specifies the offset of the limited results being returned.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns creators matching a search query.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- q (required): Search Query. Example: DONT BLINK.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Add Creator Link",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/link_request?socialstats_creator_id={{socialstats_creator_id}}&link={{source_link}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "link_request"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "link",
+                  "value": "{{source_link}}",
+                  "description": "Link to be added."
+                }
+              ]
+            },
+            "description": "Requests adding a social source link to a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- link (required): Link to be added. Example: https://www.instagram.com/dontblinkmusic.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Creator Link",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/link_request?socialstats_creator_id={{socialstats_creator_id}}&link={{source_link}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "link_request"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "link",
+                  "value": "{{source_link}}",
+                  "description": "Link to be deleted."
+                }
+              ]
+            },
+            "description": "Requests removing a social source link from a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- link (required): Link to be deleted. Example: https://www.instagram.com/dontblinkmusic.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Creators (Authorized)",
+      "item": [
+        {
+          "name": "Authorized Creator Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/authorized/stats?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "authorized",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns creator-level statistics with authorization status for each source. Authorized sources include backstage statistics; sources that are not authorized fall back to the same current stats shape returned by the public creator stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Creator Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/authorized/historic_stats?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "authorized",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns creator-level daily history with authorization status for each source. Authorized sources include backstage history when available; sources that are not authorized fall back to the same history shape returned by the public creator historic stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Creator Audience",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/authorized/audience?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "authorized",
+                "audience"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns audience data with authorization status for each source. Authorized sources include backstage audience datasets when available; sources that are not authorized fall back to the public audience response shape.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Creator Content",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/creators/authorized/content?source={{source}}&socialstats_creator_id={{socialstats_creator_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "creators",
+                "authorized",
+                "content"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}",
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}",
+                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "{{offset}}",
+                  "description": "Specifies the offset of the limited results being returned.",
+                  "disabled": true
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "with_links",
+                  "value": "{{with_links}}",
+                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns content metadata with authorization-aware fallback. Authorized sources can include Facebook posts, Instagram stories, and backstage content where available. Sources that are not authorized fall back to the public content response when a public post endpoint exists.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Get YouTube Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/youtube/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{youtube_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "youtube",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{youtube_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns metadata and current public stats for a YouTube post belonging to the requested creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get YouTube Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/youtube/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{youtube_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "youtube",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{youtube_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic public stats for a YouTube post belonging to the requested creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Instagram Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/instagram/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{instagram_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "instagram",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{instagram_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns metadata and current public stats for an Instagram post belonging to the requested creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Instagram Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/instagram/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{instagram_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "instagram",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{instagram_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic public stats for an Instagram post belonging to the requested creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get TikTok Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/tiktok/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{tiktok_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "tiktok",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{tiktok_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns metadata and current public stats for a TikTok post belonging to the requested creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        },
+        {
+          "name": "Get TikTok Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/tiktok/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{tiktok_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "tiktok",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{tiktok_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic public stats for a TikTok post belonging to the requested creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Posts (Authorized)",
+      "item": [
+        {
+          "name": "Authorized YouTube Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/youtube/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{authorized_youtube_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "youtube",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{authorized_youtube_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns current YouTube post stats with authorization-aware fallback. Authorized posts include backstage stats and authorized data. Posts that are not authorized fall back to the same stats shape returned by the public YouTube post current stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized YouTube Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/youtube/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{authorized_youtube_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "youtube",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{authorized_youtube_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic YouTube post stats with authorization-aware fallback. Authorized posts include backstage daily history when available. Posts that are not authorized return the same history shape as the public YouTube post historic stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Instagram Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/instagram/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{instagram_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "instagram",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{instagram_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns current Instagram post stats with authorization-aware fallback. Authorized posts include backstage stats and authorized data. Posts that are not authorized fall back to the same stats shape returned by the public Instagram post current stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Instagram Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/instagram/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{instagram_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "instagram",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{instagram_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic Instagram post stats with authorization-aware fallback. Authorized posts include backstage daily history when available. Posts that are not authorized return the same history shape as the public Instagram post historic stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Facebook Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/facebook/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{facebook_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "facebook",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{facebook_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns current Facebook post stats for authorized Facebook posts. Facebook does not have a public post stats endpoint, so the request requires an authorized Facebook creator profile.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized Facebook Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/facebook/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{facebook_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "facebook",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{facebook_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic Facebook post stats for authorized Facebook posts. Facebook does not have a public post historic stats endpoint, so the request requires an authorized Facebook creator profile.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized TikTok Post Current Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/tiktok/stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{tiktok_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "tiktok",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{tiktok_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "with_comments",
+                  "value": "false",
+                  "description": "Set true to include post comments when available for this source."
+                },
+                {
+                  "key": "with_locations",
+                  "value": "false",
+                  "description": "Set true to include post location data when available for this source."
+                }
+              ]
+            },
+            "description": "Returns current TikTok post stats with authorization-aware fallback. Authorized posts include backstage stats and authorized data. Posts that are not authorized fall back to the same stats shape returned by the public TikTok post current stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- with_comments (optional): Set true to include post comments when available for this source. Example: true.\n- with_locations (optional): Set true to include post location data when available for this source. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        },
+        {
+          "name": "Authorized TikTok Post Historic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/posts/authorized/tiktok/historic_stats?socialstats_creator_id={{socialstats_creator_id}}&post_id={{tiktok_post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "authorized",
+                "tiktok",
+                "historic_stats"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "post_id",
+                  "value": "{{tiktok_post_id}}",
+                  "description": "The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API."
+                },
+                {
+                  "key": "start_date",
+                  "value": "{{start_date}}",
+                  "description": "Specifies the start date of the historic data being requested.",
+                  "disabled": true
+                },
+                {
+                  "key": "end_date",
+                  "value": "{{end_date}}",
+                  "description": "Specifies the end date of the historic data being requested.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns historic TikTok post stats with authorization-aware fallback. Authorized posts include backstage daily history when available. Posts that are not authorized return the same history shape as the public TikTok post historic stats endpoint.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- post_id (required): The source post ID. The aliases `id_unique` and `external_id` are also accepted by the API. Example: 7654234001833610518.\n- start_date (optional): Specifies the start date of the historic data being requested. Example: 2026-06-18.\n- end_date (optional): Specifies the end date of the historic data being requested. Example: 2026-06-24.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authorization",
+      "item": [
+        {
+          "name": "Create OAuth Authorization URL",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/oauth?socialstats_creator_id={{socialstats_creator_id}}&source_id={{authorization_source_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "oauth"
+              ],
+              "query": [
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "The Socialstats ID of the creator being requested."
+                },
+                {
+                  "key": "source_id",
+                  "value": "{{authorization_source_id}}",
+                  "description": "The social source being authorized."
+                },
+                {
+                  "key": "return_url",
+                  "value": "{{return_url}}",
+                  "description": "URL that Socialstats should redirect the browser to after the platform callback.",
+                  "disabled": true
+                },
+                {
+                  "key": "external_reference",
+                  "value": "{{external_reference}}",
+                  "description": "Customer-side identifier carried through the authorization flow and returned in status responses.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Creates a short-lived platform OAuth URL that a creator can open to authorize backstage Socialstats access. The returned state token is carried through the callback and can be used for browser-side status polling without exposing the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- source_id (required): The social source being authorized. Example: youtube.\n- return_url (optional): URL that Socialstats should redirect the browser to after the platform callback. Example: https://customer.example.com/socialstats/oauth-return.\n- external_reference (optional): Customer-side identifier carried through the authorization flow and returned in status responses. Example: client_creator_123.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404."
+          },
+          "response": []
+        },
+        {
+          "name": "List OAuth Authorizations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/oauth",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "oauth"
+              ],
+              "query": [
+                {
+                  "key": "source_id",
+                  "value": "{{authorization_source_id}}",
+                  "description": "Filter authorizations by social source.",
+                  "disabled": true
+                },
+                {
+                  "key": "socialstats_creator_id",
+                  "value": "{{socialstats_creator_id}}",
+                  "description": "Filter authorizations by creator.",
+                  "disabled": true
+                },
+                {
+                  "key": "include_inactive",
+                  "value": "{{include_inactive}}",
+                  "description": "Include revoked, failed, and expired authorizations.",
+                  "disabled": true
+                },
+                {
+                  "key": "state_token",
+                  "value": "{{state_token}}",
+                  "description": "Short-lived OAuth state token used for browser-side status polling without an API Key.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Lists backstage authorization grants for the API Key. If `state_token` is supplied instead of an API Key, returns only the short-lived status for that authorization attempt.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source_id (optional): Filter authorizations by social source. Example: youtube.\n- socialstats_creator_id (optional): Filter authorizations by creator. Example: 0y6vlkgu.\n- include_inactive (optional): Include revoked, failed, and expired authorizations. Example: true.\n- state_token (optional): Short-lived OAuth state token used for browser-side status polling without an API Key. Example: uR3h5Yy4s....\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401, 404.\n\nThis endpoint can be called without an API Key only when using a valid short-lived OAuth state token."
+          },
+          "response": []
+        },
+        {
+          "name": "Get OAuth Authorization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/oauth/{{authorization_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "oauth",
+                "{{authorization_id}}"
+              ],
+              "query": []
+            },
+            "description": "Returns one backstage authorization grant for the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
+          },
+          "response": []
+        },
+        {
+          "name": "Revoke OAuth Authorization",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/oauth/{{authorization_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "oauth",
+                "{{authorization_id}}"
+              ],
+              "query": []
+            },
+            "description": "Revokes this API Key's backstage access grant. The shared platform token is not revoked for other authorized customers or members.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
+          },
+          "response": []
+        },
+        {
+          "name": "Platform OAuth Callback",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/oauth/{{authorization_source_id}}/callback?state={{state_token}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "oauth",
+                "{{authorization_source_id}}",
+                "callback"
+              ],
+              "query": [
+                {
+                  "key": "state",
+                  "value": "{{state_token}}",
+                  "description": ""
+                },
+                {
+                  "key": "code",
+                  "value": "{{oauth_code}}",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "error",
+                  "value": "{{oauth_error}}",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Provider callback URL used by YouTube, Facebook/Instagram, and TikTok. This endpoint does not require an API Key because attribution is performed with the short-lived OAuth state token.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- state (required)\n- code (optional)\n- error (optional)\n\nDocumented responses: 200, 302."
+          },
+          "response": []
+        },
+        {
+          "name": "Get OAuth Attempt Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/oauth/attempts/{{state_token}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "oauth",
+                "attempts",
+                "{{state_token}}"
+              ],
+              "query": []
+            },
+            "description": "Returns the status of one short-lived OAuth attempt without requiring an API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 404."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Info",
+      "item": [
+        {
+          "name": "Get API Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status"
+              ],
+              "query": []
+            },
+            "description": "Returns current API usage and billing status for the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200."
+          },
+          "response": []
+        },
+        {
+          "name": "Get API Definitions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/definitions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "definitions"
+              ],
+              "query": []
+            },
+            "description": "Returns available data type and rank type definitions.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200."
+          },
+          "response": []
+        },
+        {
+          "name": "Get API Sources",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/sources",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sources"
+              ],
+              "query": []
+            },
+            "description": "Returns supported Socialstats source identifiers.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
