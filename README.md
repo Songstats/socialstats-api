@@ -2,7 +2,7 @@
 
 Official Postman collection for the **Socialstats Enterprise API**.
 
-API Documentation: https://docs.socialstats.com  
+API Documentation: https://developers.stats.company/socialstats<br>
 API Key Access: Please contact api@socialstats.com
 
 ---
@@ -42,7 +42,7 @@ All authenticated requests include your API key in the `apikey` header.
 
 Full endpoint documentation is available at:
 
-https://docs.socialstats.com
+https://developers.stats.company/socialstats
 
 ---
 
