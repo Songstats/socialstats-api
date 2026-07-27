@@ -28,6 +28,11 @@ Or import it from a local checkout:
 
 All authenticated requests include your API key in the `apikey` header.
 
+Creator-dependent requests use `socialstats_creator_id` by default. They also include disabled
+`instagram_creator_id`, `facebook_creator_id`, `youtube_creator_id`, and `tiktok_creator_id`
+query parameters. Enable one source-specific parameter and disable `socialstats_creator_id` to
+request a creator by the platform's internal ID or exact username.
+
 ---
 
 ## SDKs
