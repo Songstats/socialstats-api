@@ -33,6 +33,9 @@ Creator-dependent requests use `socialstats_creator_id` by default. They also in
 query parameters. Enable one source-specific parameter and disable `socialstats_creator_id` to
 request a creator by the platform's internal ID or exact username.
 
+Creator information responses include both `external_id` and `username` for every source profile
+in the `links` array. `username` is `null` when the source has no stored username or handle.
+
 ---
 
 ## SDKs
