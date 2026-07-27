@@ -180,6 +180,11 @@
       "type": "string"
     },
     {
+      "key": "authorization_platform",
+      "value": "web",
+      "type": "string"
+    },
+    {
       "key": "include_inactive",
       "value": "true",
       "type": "string"
@@ -1747,10 +1752,16 @@
                   "value": "{{external_reference}}",
                   "description": "Customer-side identifier carried through the authorization flow and returned in status responses.",
                   "disabled": true
+                },
+                {
+                  "key": "platform",
+                  "value": "{{authorization_platform}}",
+                  "description": "Optional customer platform metadata stored with the authorization.",
+                  "disabled": true
                 }
               ]
             },
-            "description": "Creates a short-lived platform OAuth URL that a creator can open to authorize backstage Socialstats access. The returned state token is carried through the callback and can be used for browser-side status polling without exposing the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- source_id (required): The social source being authorized. Example: youtube.\n- return_url (optional): URL that Socialstats should redirect the browser to after the platform callback. Example: https://customer.example.com/socialstats/oauth-return.\n- external_reference (optional): Customer-side identifier carried through the authorization flow and returned in status responses. Example: client_creator_123.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404."
+            "description": "Creates a short-lived platform OAuth URL that a creator can open to authorize backstage Socialstats access. The returned state token is carried through the callback and can be used for browser-side status polling without exposing the API Key. The creator must grant every configured provider scope; partial consent fails with `missing_scope`.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (required): The Socialstats ID of the creator being requested. Example: 0y6vlkgu.\n- source_id (required): The social source being authorized. Example: youtube.\n- return_url (optional): HTTPS URL that Socialstats should redirect the browser to after the platform callback. Localhost HTTP URLs are accepted for development. Example: https://customer.example.com/socialstats/oauth-return.\n- external_reference (optional): Customer-side identifier carried through the authorization flow and returned in status responses. Example: client_creator_123.\n- platform (optional): Customer platform metadata stored with the authorization. The provider flow remains server-side web OAuth. Example: web.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404."
           },
           "response": []
         },
@@ -1848,6 +1859,9 @@
         {
           "name": "Platform OAuth Callback",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -1880,23 +1894,25 @@
                 }
               ]
             },
-            "description": "Provider callback URL used by YouTube, Facebook/Instagram, and TikTok. This endpoint does not require an API Key because attribution is performed with the short-lived OAuth state token.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- state (required)\n- code (optional)\n- error (optional)\n\nDocumented responses: 200, 302."
+            "description": "Provider callback URL used by YouTube, Facebook/Instagram, and TikTok. This endpoint does not require an API Key because attribution is performed with the short-lived OAuth state token.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- state (required)\n- code (optional)\n- error (optional)\n\nDocumented responses: 200, 302, 404."
           },
           "response": []
         },
         {
           "name": "Get OAuth Attempt Status",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/oauth/attempts/{{state_token}}",
+              "raw": "{{base_url}}/oauth-attempts/{{state_token}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "oauth",
-                "attempts",
+                "oauth-attempts",
                 "{{state_token}}"
               ],
               "query": []
@@ -1932,7 +1948,7 @@
               ],
               "query": []
             },
-            "description": "Returns current API usage and billing status for the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200."
+            "description": "Returns current API usage and billing status for the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401."
           },
           "response": []
         },
@@ -1958,7 +1974,7 @@
               ],
               "query": []
             },
-            "description": "Returns available data type and rank type definitions.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200."
+            "description": "Returns available data type and rank type definitions.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401."
           },
           "response": []
         },
@@ -1984,7 +2000,33 @@
               ],
               "query": []
             },
-            "description": "Returns supported Socialstats source identifiers.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200."
+            "description": "Returns supported Socialstats source identifiers.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401."
+          },
+          "response": []
+        },
+        {
+          "name": "Check API Uptime",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Encoding",
+                "value": "{{accept_encoding}}",
+                "description": "gzip, deflate, br",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uptime_check",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uptime_check"
+              ],
+              "query": []
+            },
+            "description": "Returns a lightweight authenticated API availability response.\nGenerated from docs/socialstats_openapi.yaml.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401."
           },
           "response": []
         }
