@@ -370,7 +370,7 @@
                 }
               ]
             },
-            "description": "Returns current creator statistics in category/timeframe groups. Existing channel authorizations are used automatically, source by source. Connected-account metrics supplement public totals; common metric meanings remain unchanged. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public data and Connected-account data response examples where provided. For non-member Enterprise keys, a missing creator requested by a supported source selector can be scheduled for discovery. Retry after collection completes."
+            "description": "Returns current creator statistics in category/timeframe groups. Existing channel authorizations are used automatically, source by source. Connected-account metrics supplement public totals; common metric meanings remain unchanged. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided. For non-member Enterprise keys, a missing creator requested by a supported source selector can be scheduled for discovery. Retry after collection completes."
           },
           "response": []
         },
@@ -456,7 +456,7 @@
                 }
               ]
             },
-            "description": "Returns creator history over the requested date range. Public and connected-account histories are merged by date where this key is authorized; otherwise only public history is returned. Connection expiry can reduce the available fields. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public data and Connected-account data response examples where provided."
+            "description": "Returns creator history over the requested date range. Public and connected-account histories are merged by date where this key is authorized; otherwise only public history is returned. Connection expiry can reduce the available fields. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
           },
           "response": []
         },
@@ -524,7 +524,7 @@
                 }
               ]
             },
-            "description": "Returns public audience data, supplemented with demographics, online follower timing, rankings and locations where the key has channel authorization. Common fields remain at the same paths. Connected-account fields are optional and may be absent when unavailable. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public data and Connected-account data response examples where provided."
+            "description": "Returns public audience data, supplemented with demographics, online follower timing, rankings and locations where the key has channel authorization. Common fields remain at the same paths. Connected-account fields are optional and may be absent when unavailable. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
           },
           "response": []
         },
@@ -690,7 +690,7 @@
                 }
               ]
             },
-            "description": "Returns paginated Instagram, YouTube, TikTok and Facebook content. Existing channel authorizations automatically enable connected-only content, including Instagram stories. Facebook has no public post fallback and returns an empty list without authorization. Follow next_url to preserve the source, date range and data_access selection. List items contain stored views_total and likes_total; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public data and Connected-account data response examples where provided."
+            "description": "Returns paginated Instagram, YouTube, TikTok and Facebook content. Existing channel authorizations automatically enable connected-only content, including Instagram stories. Facebook has no public post fallback and returns an empty list without authorization. Follow next_url to preserve the source, date range and data_access selection. List items contain stored views_total and likes_total; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
           },
           "response": []
         },
@@ -800,7 +800,7 @@
                 }
               ]
             },
-            "description": "Returns top posts ranked by the requested stored lifetime metric. Existing channel authorizations enable connected-only content. Facebook returns an empty list without authorization. Ranking values retain their existing meaning; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public data and Connected-account data response examples where provided."
+            "description": "Returns top posts ranked by the requested stored lifetime metric. Existing channel authorizations enable connected-only content. Facebook returns an empty list without authorization. Ranking values retain their existing meaning; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
           },
           "response": []
         },
