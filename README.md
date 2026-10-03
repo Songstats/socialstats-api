@@ -36,6 +36,12 @@ request a creator by the platform's internal ID or exact username.
 Creator information responses include both `external_id` and `username` for every source profile
 in the `links` array. `username` is `null` when the source has no stored username or handle.
 
+## Automatic Data Access
+
+Regular analytics endpoints use existing channel authorization automatically. Member keys inherit dashboard channel connections; Enterprise keys use grants belonging to their agreement. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.
+
+The `data_access` collection variable defaults to `auto`. Enable the optional query parameter to override it. Existing `/authorized/` URLs remain compatible aliases; new integrations should use the regular routes.
+
 ## Creator Backstage Authorization
 
 Socialstats authorization grants first-party analytics access for one creator and one source at a
@@ -43,7 +49,7 @@ time. YouTube, Instagram, Facebook, and TikTok are supported.
 
 ### Before You Start
 
-- The API Key needs Socialstats access and permission for the creator, source, and authorized
+- The API Key needs Socialstats access and permission for the creator, source, and analytics
   endpoints.
 - The matching source profile must already be linked to the creator in Socialstats.
 - Instagram must be a professional profile connected to a Facebook Page that is also linked to the
@@ -64,7 +70,7 @@ time. YouTube, Instagram, Facebook, and TikTok are supported.
    Socialstats also redirects there with the final status fields.
 6. Send **Authorization → List OAuth Authorizations** with the API Key. Access is usable when
    `status` is `active` and `is_authorized` is `true`.
-7. Use the requests under **Creators (Authorized)** and **Posts (Authorized)**.
+7. Use the requests under **Creators** and **Posts**.
 8. To remove this API Key's grant, set `authorization_id` and send
    **Authorization → Revoke OAuth Authorization**.
 
