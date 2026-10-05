@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "b7dc314a-c7ee-f73f-ef47-ea4d47921b23",
     "name": "Socialstats API",
-    "description": "API Access to Creator and Social Content Data\n\nEnterprise API collection generated from docs/socialstats_openapi.yaml and live Rails Enterprise routes.\nSet the `api_key` collection variable before sending authenticated requests. The collection uses the `apikey` header for authentication. Creator link mutations require the matching `add_link_request` or `remove_link_request` permission plus creator object access. OAuth callback/status endpoints may also support short-lived state-token access as documented.\n\nCreator-dependent endpoints accept `socialstats_creator_id` or one of `instagram_creator_id`, `facebook_creator_id`, `youtube_creator_id`, and `tiktok_creator_id`. Each source-specific selector accepts either the platform internal ID (`external_id`) or exact username (`secondary_id`). Use one creator selector per request.\n\nCreator info `links` objects include both `external_id` and `username`; `username` is null when the source has no stored username or handle.\n\nThe Authorization folder contains the complete creator backstage OAuth workflow, provider scopes, polling steps, and status guidance.\n\nSuccessful responses use `result` and `message` plus the documented resource key. Error responses consistently use `result: error` and `message`. Public and authorized post current-stat responses use the same nested `stats.<group>.<timeframe>` structure.\n\nPostman exports collections as JSON. This file uses the Postman Collection v2.1 schema.\n\nMetric consistency: Public post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nRegular analytics endpoints use existing channel authorization automatically. Member keys inherit dashboard channel connections; Enterprise keys use grants belonging to their agreement. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.",
+    "description": "API Access to Creator and Social Content Data\n\nEnterprise API collection generated from docs/socialstats_openapi.yaml and live Rails Enterprise routes.\nSet the `api_key` collection variable before sending authenticated requests. The collection uses the `apikey` header for authentication. Creator link mutations require the matching `add_link_request` or `remove_link_request` permission plus creator object access. OAuth callback/status endpoints may also support short-lived state-token access as documented.\n\nCreator-dependent endpoints accept `socialstats_creator_id` or one of `instagram_creator_id`, `facebook_creator_id`, `youtube_creator_id`, and `tiktok_creator_id`. Each source-specific selector accepts either the platform internal ID (`external_id`) or exact username (`secondary_id`). Use one creator selector per request.\n\nCreator info `links` objects include both `external_id` and `username`; `username` is null when the source has no stored username or handle.\n\nThe Authorization folder contains the complete creator backstage OAuth workflow, provider scopes, polling steps, and status guidance.\n\nSuccessful responses use `result` and `message` plus the documented resource key. Error responses consistently use `result: error` and `message`. Public and authorized post current-stat responses use the same nested `stats.<group>.<timeframe>` structure.\n\nPostman exports collections as JSON. This file uses the Postman Collection v2.1 schema.\n\nMetric consistency: Public post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nRegular analytics endpoints use existing channel authorization automatically. Member and entity keys reuse their owning member's active dashboard channel connections. Entity keys also accept grants belonging to their agreement; other Enterprise key types use only agreement grants. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -365,7 +365,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -451,7 +451,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -519,7 +519,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -685,7 +685,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -795,7 +795,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1140,7 +1140,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1221,7 +1221,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1300,7 +1300,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1381,7 +1381,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1460,7 +1460,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1541,7 +1541,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1620,7 +1620,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1701,7 +1701,7 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member keys reuse dashboard connections; Enterprise keys use their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
@@ -1865,7 +1865,7 @@
                 }
               ]
             },
-            "description": "Lists backstage authorization grants for the API Key. If `state_token` is supplied instead of an API Key, returns only the short-lived status for that authorization attempt.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source_id (optional): Filter authorizations by social source. Example: youtube.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- include_inactive (optional): Include revoked, failed, and expired authorizations. Example: true.\n- state_token (optional): Short-lived OAuth state token used for browser-side status polling without an API Key. Example: uR3h5Yy4s....\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401, 404.\n\nThis endpoint can be called without an API Key only when using a valid short-lived OAuth state token."
+            "description": "Lists channel authorizations available to the API Key, including the owning member's active dashboard confirmations for member and entity keys. Inherited entries have no grant id and must be disconnected in the dashboard. Entity keys prefer an active agreement grant when both paths exist. If `state_token` is supplied instead of an API Key, returns only the short-lived status for that authorization attempt.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source_id (optional): Filter authorizations by social source. Example: youtube.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- include_inactive (optional): Include revoked, failed, and expired authorizations. Example: true.\n- state_token (optional): Short-lived OAuth state token used for browser-side status polling without an API Key. Example: uR3h5Yy4s....\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401, 404.\n\nThis endpoint can be called without an API Key only when using a valid short-lived OAuth state token."
           },
           "response": []
         },
@@ -1905,7 +1905,7 @@
               ],
               "query": []
             },
-            "description": "Revokes this API Key's backstage access grant. The shared platform token is not revoked for other authorized customers or members.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
+            "description": "Revokes this API Key's backstage access grant. The shared platform token is not revoked for other authorized customers or members. Entity keys retain access through their owning member's active dashboard connection, if one exists.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
           },
           "response": []
         },
@@ -1975,7 +1975,7 @@
           "response": []
         }
       ],
-      "description": "# Creator Backstage Authorization\n\nAuthorize one creator and one source at a time for YouTube, Instagram, Facebook, or TikTok.\n\n## Flow\n\n1. Set `api_key`, one creator selector, and `authorization_source_id`.\n2. Send **Create OAuth Authorization URL**.\n3. Copy the returned `state_token` into the collection variable and open `authorization_url` in the creator's browser. The attempt expires after 30 minutes.\n4. The creator selects the exact linked profile and grants every requested scope. Socialstats handles the callback and validates the profile identity.\n5. Poll **Get OAuth Attempt Status** until `status` changes from `pending`. This request does not use the API Key. If the create request included `return_url`, Socialstats also redirects there with the final result.\n6. Send **List OAuth Authorizations** with the API Key. The grant is usable when `status` is `active` and `is_authorized` is `true`.\n7. Use the authorized creator and post requests. Revoke only this API Key's grant with **Revoke OAuth Authorization** when access should end.\n\nDo not manually send **Platform OAuth Callback**; providers call it directly.\n\n## Required Scopes\n\n- **YouTube:** `https://www.googleapis.com/auth/youtube.readonly`, `https://www.googleapis.com/auth/yt-analytics.readonly`\n- **Meta / Facebook / Instagram:** `email`, `instagram_basic`, `instagram_manage_comments`, `pages_manage_metadata`, `pages_read_user_content`, `instagram_manage_insights`, `pages_read_engagement`, `read_insights`, `pages_show_list`, `business_management`\n- **TikTok:** `user.info.basic`, `user.info.stats`, `user.info.profile`, `video.list`\n\nEvery configured scope is mandatory. Common terminal statuses include `active`, `expired_attempt`, `missing_scope`, `wrong_profile`, `wrong_source`, `missing_profile`, `provider_error`, `token_expired`, and `revoked`. Instagram and Facebook have additional Page/profile matching statuses documented in the API guide."
+      "description": "# Creator Backstage Authorization\n\nAuthorize one creator and one source at a time for YouTube, Instagram, Facebook, or TikTok.\n\n## Flow\n\n1. Set `api_key`, one creator selector, and `authorization_source_id`.\n2. Send **Create OAuth Authorization URL**.\n3. Copy the returned `state_token` into the collection variable and open `authorization_url` in the creator's browser. The attempt expires after 30 minutes.\n4. The creator selects the exact linked profile and grants every requested scope. Socialstats handles the callback and validates the profile identity.\n5. Poll **Get OAuth Attempt Status** until `status` changes from `pending`. This request does not use the API Key. If the create request included `return_url`, Socialstats also redirects there with the final result.\n6. Send **List OAuth Authorizations** with the API Key. Access is usable when `status` is `active` and `is_authorized` is `true`. Member and entity keys also reuse their owning member's dashboard confirmations; those inherited entries have no grant id and must be disconnected in the dashboard. Revoking an entity key's agreement grant leaves an independent dashboard confirmation in place.\n7. Use the authorized creator and post requests. Revoke only this API Key's grant with **Revoke OAuth Authorization** when access should end.\n\nDo not manually send **Platform OAuth Callback**; providers call it directly.\n\n## Required Scopes\n\n- **YouTube:** `https://www.googleapis.com/auth/youtube.readonly`, `https://www.googleapis.com/auth/yt-analytics.readonly`\n- **Meta / Facebook / Instagram:** `email`, `instagram_basic`, `instagram_manage_comments`, `pages_manage_metadata`, `pages_read_user_content`, `instagram_manage_insights`, `pages_read_engagement`, `read_insights`, `pages_show_list`, `business_management`\n- **TikTok:** `user.info.basic`, `user.info.stats`, `user.info.profile`, `video.list`\n\nEvery configured scope is mandatory. Common terminal statuses include `active`, `expired_attempt`, `missing_scope`, `wrong_profile`, `wrong_source`, `missing_profile`, `provider_error`, `token_expired`, and `revoked`. Instagram and Facebook have additional Page/profile matching statuses documented in the API guide."
     },
     {
       "name": "Info",

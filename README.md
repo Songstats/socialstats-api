@@ -38,7 +38,7 @@ in the `links` array. `username` is `null` when the source has no stored usernam
 
 ## Automatic Data Access
 
-Regular analytics endpoints use existing channel authorization automatically. Member keys inherit dashboard channel connections; Enterprise keys use grants belonging to their agreement. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.
+Regular analytics endpoints use existing channel authorization automatically. Member and entity keys reuse their owning member's active dashboard channel connections. Entity keys also accept grants belonging to their agreement; other Enterprise key types use only agreement grants. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.
 
 The `data_access` collection variable defaults to `auto`. Enable the optional query parameter to override it. Existing `/authorized/` URLs remain compatible aliases; new integrations should use the regular routes.
 
@@ -72,7 +72,9 @@ time. YouTube, Instagram, Facebook, and TikTok are supported.
    `status` is `active` and `is_authorized` is `true`.
 7. Use the requests under **Creators** and **Posts**.
 8. To remove this API Key's grant, set `authorization_id` and send
-   **Authorization → Revoke OAuth Authorization**.
+   **Authorization → Revoke OAuth Authorization**. Inherited dashboard connections have no
+   grant ID; disconnect them in the dashboard. Revoking an entity key's agreement grant does
+   not remove its owning member's independent dashboard connection.
 
 Do not manually call **Platform OAuth Callback** or exchange provider codes in your application.
 The callback request is included in the collection only to document the provider-facing contract.
