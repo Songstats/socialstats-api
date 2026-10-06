@@ -370,7 +370,7 @@
                 }
               ]
             },
-            "description": "Returns current creator statistics in category/timeframe groups. Existing channel authorizations are used automatically, source by source. Connected-account metrics supplement public totals; common metric meanings remain unchanged. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided. For non-member Enterprise keys, a missing creator requested by a supported source selector can be scheduled for discovery. Retry after collection completes."
+            "description": "Returns current creator statistics in category/timeframe groups. Existing channel authorizations are used automatically, source by source. Connected-account metrics supplement public totals; common metric meanings remain unchanged. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided. For non-member Enterprise keys, a missing creator requested by a supported source selector can be scheduled for discovery. Retry after collection completes.\n\nAuthorized Instagram post totals include available connected-account measurements, matching the dashboard."
           },
           "response": []
         },
@@ -456,7 +456,7 @@
                 }
               ]
             },
-            "description": "Returns creator history over the requested date range. Public and connected-account histories are merged by date where this key is authorized; otherwise only public history is returned. Connection expiry can reduce the available fields. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
+            "description": "Returns creator history over the requested date range. Public and connected-account histories are merged by date where this key is authorized; otherwise only public history is returned. Connection expiry can reduce the available fields. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nInstagram and YouTube creator post history uses dashboard connected-account measurements for channel owners authorized by this key. Posts without accessible connected-account history retain available public history. Use data_access=public for public measurements."
           },
           "response": []
         },
