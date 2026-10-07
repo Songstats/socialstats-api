@@ -42,6 +42,17 @@ Regular analytics endpoints use existing channel authorization automatically. Me
 
 The `data_access` collection variable defaults to `auto`. Enable the optional query parameter to override it. Existing `/authorized/` URLs remain compatible aliases; new integrations should use the regular routes.
 
+## Post Counter History
+
+YouTube, Instagram and Facebook public post views, likes and comments use one complete history per
+post and metric. In automatic mode with permitted owner access, authorized history is preferred
+when that metric has an observation within the seven UTC dates ending today. Otherwise use public
+history when available; retain permitted older authorized history if public history is absent.
+Public mode excludes authorized data. Missing counters are omitted rather than zero, and no
+undated current total or mixed-source prefix/suffix is appended. Daily authorized counts accumulate
+only retained reporting periods, so history endpoints can differ from current totals. Shares and
+other private insights, including Instagram Story/photo insight views, keep their existing behavior.
+
 ## Creator Backstage Authorization
 
 Socialstats authorization grants first-party analytics access for one creator and one source at a
