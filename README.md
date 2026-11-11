@@ -28,6 +28,8 @@ Or import it from a local checkout:
 
 All authenticated requests include your API key in the `apikey` header.
 
+Member API keys have one current credential per member. Disable and regenerate actions also invalidate legacy duplicate credentials. MCP connection setup preserves existing disabled states and administrator permissions. Explicit regeneration enables a temporarily disabled member key; permanent disable requires support review. Existing agreement IDs and request history are retained.
+
 Creator-dependent requests use `socialstats_creator_id` by default. They also include disabled
 `instagram_creator_id`, `facebook_creator_id`, `youtube_creator_id`, and `tiktok_creator_id`
 query parameters. Enable one source-specific parameter and disable `socialstats_creator_id` to
@@ -66,6 +68,15 @@ time. YouTube, Instagram, Facebook, and TikTok are supported.
 - Instagram must be a professional profile connected to a Facebook Page that is also linked to the
   creator. The creator must grant access to that Page in the Meta flow.
 - All configured provider scopes are mandatory. Partial consent returns `missing_scope`.
+- Agreement, creator/product, source and analytics permissions must remain valid through the
+  callback. Lost access returns `failed`; moving the source to another creator returns
+  `wrong_profile`. Restore access or correct the profile link, then request a new URL.
+- Token, grant and member-confirmation writes commit together after the final access check.
+  Connected Meta grants are limited to permitted sources and never reassign another creator's
+  profile. TikTok metadata and artwork refresh through the initial authorized sync.
+- Revocation also prevents older pending attempts from reactivating that channel's grant,
+  including through a connected Meta source. Create a new URL to reauthorize after revocation.
+  A later successful authorization does not restore an older pending URL.
 
 ### Postman Flow
 
@@ -137,3 +148,7 @@ This collection is maintained alongside the Socialstats Enterprise API documenta
 ## License
 
 MIT
+
+Initial-sync requests commit with authorization credentials and grants, and the existing job-request dispatcher hands them off for processing. Queue interruptions retain recoverable work; completed callback replay does not exchange a new provider code.
+
+Canonical Creator merges move grant and attempt references to the surviving Creator without replacing provider identities or revocation history. API Key and member subscription checks still use current access; the merge does not transfer entitlements.
