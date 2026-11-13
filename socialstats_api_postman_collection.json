@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "b7dc314a-c7ee-f73f-ef47-ea4d47921b23",
     "name": "Socialstats API",
-    "description": "API Access to Creator and Social Content Data\n\nEnterprise API collection generated from docs/socialstats_openapi.yaml and live Rails Enterprise routes.\nSet the `api_key` collection variable before sending authenticated requests. The collection uses the `apikey` header for authentication. Creator link mutations require the matching `add_link_request` or `remove_link_request` permission plus creator object access. OAuth callback/status endpoints may also support short-lived state-token access as documented.\n\nCreator-dependent endpoints accept `socialstats_creator_id` or one of `instagram_creator_id`, `facebook_creator_id`, `youtube_creator_id`, and `tiktok_creator_id`. Each source-specific selector accepts either the platform internal ID (`external_id`) or exact username (`secondary_id`). Use one creator selector per request.\n\nCreator info `links` objects include both `external_id` and `username`; `username` is null when the source has no stored username or handle.\n\nThe Authorization folder contains the complete creator backstage OAuth workflow, provider scopes, polling steps, and status guidance.\n\nSuccessful responses use `result` and `message` plus the documented resource key. Error responses consistently use `result: error` and `message`. Public and authorized post current-stat responses use the same nested `stats.<group>.<timeframe>` structure.\n\nPostman exports collections as JSON. This file uses the Postman Collection v2.1 schema.\n\nMetric consistency: Public post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nRegular analytics endpoints use existing channel authorization automatically. Member and entity keys reuse their owning member's active dashboard channel connections. Entity keys also accept grants belonging to their agreement; other Enterprise key types use only agreement grants. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.\n\nCreator discovery: Creator info, current stats, history, audience, audience details and activities can schedule a missing profile selected by a supported platform ID or exact username, including authorized aliases. Permission for the requested endpoint/source and available quota are required. Pending requests return HTTP 404 with a discovery-scheduled message; retry the same request later. Collection has no guaranteed completion time. Existing recorded history remains available; newly collected profiles do not gain reconstructed earlier follower counts. Discovery does not grant post access or enable full post-catalog imports. MCP calls require an existing creator.",
+    "description": "API Access to Creator and Social Content Data\n\nEnterprise API collection generated from docs/socialstats_openapi.yaml and live Rails Enterprise routes.\nSet the `api_key` collection variable before sending authenticated requests. The collection uses the `apikey` header for authentication. Creator link mutations require the matching `add_link_request` or `remove_link_request` permission plus creator object access. OAuth callback/status endpoints may also support short-lived state-token access as documented.\n\nCreator-dependent endpoints accept `socialstats_creator_id` or one of `instagram_creator_id`, `facebook_creator_id`, `youtube_creator_id`, and `tiktok_creator_id`. Each source-specific selector accepts either the platform internal ID (`external_id`) or exact username (`secondary_id`). Use one creator selector per request.\n\nCreator info `links` objects include both `external_id` and `username`; `username` is null when the source has no stored username or handle.\n\nThe Authorization folder contains the complete creator backstage OAuth workflow, provider scopes, polling steps, and status guidance.\n\nSuccessful responses use `result` and `message` plus the documented resource key. Error responses consistently use `result: error` and `message`. Public and authorized post current-stat responses use the same nested `stats.<group>.<timeframe>` structure.\n\nPostman exports collections as JSON. This file uses the Postman Collection v2.1 schema.\n\nMetric consistency: Public post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nRegular analytics endpoints use existing channel authorization automatically. Member and entity keys reuse their owning member's active dashboard channel connections. Entity keys also accept grants belonging to their agreement; other Enterprise key types use only agreement grants. Set data_access=public to request public data only. Check data_access_used, is_authorized, and authorization_status in each source or post response. Facebook posts and Instagram stories require owner channel authorization; lists omit them and post-detail requests return 403 without it or in public mode. Public posts from other profiles remain available.\n\nMember key lifecycle: Member API keys have one current credential per member. Disabling or regenerating a member key also prevents legacy duplicate credentials from authorizing requests. Creating an MCP connection preserves an existing agreement's disabled state and administrator permissions. Temporarily disabled member keys can be enabled by explicit regeneration in Account settings; permanently disabled keys require support review. These rules do not combine separate Enterprise agreements or their accounting histories.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted.\n\nFacebook follower countries and cities are connected-account Page Insights, returned only for the exact authorized channels and omitted from public mode and the public country drilldown.\n\nCreator discovery: Creator info, current stats, history, audience, audience details and activities can schedule a missing profile selected by a supported platform ID or exact username, including authorized aliases. Permission for the requested endpoint/source and available quota are required. Pending requests return HTTP 404 with a discovery-scheduled message; retry the same request later. Collection has no guaranteed completion time. Existing recorded history remains available; newly collected profiles do not gain reconstructed earlier follower counts. Discovery does not grant post access or enable full post-catalog imports. MCP calls require an existing creator.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -215,8 +215,9 @@
     },
     {
       "key": "state_token",
-      "value": "uR3h5Yy4s...",
-      "type": "string"
+      "value": "",
+      "type": "string",
+      "description": "Paste the fresh state_token returned by Create OAuth Authorization URL before polling. Do not reuse a token from another attempt."
     },
     {
       "key": "authorization_id",
@@ -297,12 +298,12 @@
                 {
                   "key": "with_links",
                   "value": "{{with_links}}",
-                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "description": "Includes all public source links associated with the requested creator. Connection status is shown only for sources assigned to the API Key.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns metadata information for a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- with_links (optional): Includes an array of all source links associated with the requested creator. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
+            "description": "Returns creator metadata and public source links. A link includes connection status only when its source is assigned to the API key and supports channel authorization.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- with_links (optional): Includes all public source links associated with the requested creator. Connection status is shown only for sources assigned to the API Key. Example: true.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -331,7 +332,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -365,12 +366,12 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns current creator statistics in category/timeframe groups. Existing channel authorizations are used automatically, source by source. Connected-account metrics supplement public totals; common metric meanings remain unchanged. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nAuthorized Instagram post totals include available connected-account measurements, matching the dashboard.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
+            "description": "Returns current creator statistics in category/timeframe groups. Existing channel authorizations are used automatically, source by source. Connected-account metrics supplement public totals; common metric meanings remain unchanged. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nAuthorized Instagram post totals include available connected-account measurements, matching the dashboard.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
           },
           "response": []
         },
@@ -399,7 +400,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -433,13 +434,13 @@
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
@@ -451,12 +452,12 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns creator history over the requested date range. Public and connected-account histories are merged by date where this key is authorized; otherwise only public history is returned. Connection expiry can reduce the available fields. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
+            "description": "Returns creator history over the requested date range. Public and connected-account histories are merged by date where this key is authorized; otherwise only public history is returned. TikTok keeps observed public creator totals across linked profiles, including zero; connected history fills gaps without replacing those totals. Connection expiry can reduce the available fields. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted.\n\nSend each date parameter at most once. An invalid date range is rejected before an entity slot is reserved.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
           },
           "response": []
         },
@@ -485,7 +486,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -519,12 +520,12 @@
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns public audience data, supplemented with demographics, online follower timing, rankings and locations where the key has channel authorization. Common fields remain at the same paths. Connected-account fields are optional and may be absent when unavailable. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
+            "description": "Returns public audience data, supplemented with demographics, online follower timing, rankings and locations where the key has channel authorization. Common fields remain at the same paths. Connected-account fields are optional and may be absent when unavailable. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided. Facebook follower countries and cities are connected-account Page Insights, returned only for the exact authorized channels and omitted from public mode and the public country drilldown.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
           },
           "response": []
         },
@@ -554,7 +555,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -588,11 +589,11 @@
                 {
                   "key": "country_code",
                   "value": "{{country_code}}",
-                  "description": "A two-letter country code."
+                  "description": "A two-letter country code. Pass one code using ASCII letters (case-insensitive); spaces between letters and structured values are invalid."
                 }
               ]
             },
-            "description": "Returns detailed audience information for a creator in a specific country filtered by source.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- country_code (required): A two-letter country code. Example: US.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
+            "description": "Returns detailed audience information for a creator in a specific country filtered by source. This endpoint is a public geographic drilldown. Connected-account demographics and locations are returned by /creators/audience. Facebook Page Insights country and city counts are excluded, including when a channel is connected.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- country_code (required): Send one two-letter country code. Example: US.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -621,7 +622,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -655,42 +656,42 @@
                 {
                   "key": "limit",
                   "value": "{{limit}}",
-                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "description": "Maximum results per source. Send at most one integer from 1 to 100; default 100.",
                   "disabled": true
                 },
                 {
                   "key": "offset",
                   "value": "{{offset}}",
-                  "description": "Specifies the offset of the limited results being returned.",
+                  "description": "Number of results to skip. Send at most one integer from 0 to 2147483647; default 0.",
                   "disabled": true
                 },
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "with_links",
                   "value": "{{with_links}}",
-                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "description": "Includes all public source links associated with the requested creator. Connection status is shown only for sources assigned to the API Key.",
                   "disabled": true
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns paginated Instagram, YouTube, TikTok and Facebook content. Existing channel authorizations automatically enable connected-only content, including Instagram stories. Facebook has no public post fallback and returns an empty list without authorization. Follow next_url to preserve the source, date range and data_access selection. List items contain stored views_total and likes_total; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
+            "description": "Returns paginated Instagram, YouTube, TikTok and Facebook content. Existing channel authorizations automatically enable connected-only content, including Instagram stories. Facebook has no public post fallback and returns an empty list without authorization. Follow next_url to preserve the supported filters. It uses the canonical creator ID. Continue sending the API key in the request header. List items contain available stored views_total and likes_total; unavailable counters are omitted; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted."
           },
           "response": []
         },
@@ -719,7 +720,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -753,54 +754,54 @@
                 {
                   "key": "metric",
                   "value": "{{metric}}",
-                  "description": "Metric used to rank top posts. Legacy values such as views_total are also accepted.",
+                  "description": "Metric used to rank top posts. Send at most one value. Legacy values such as views_total are also accepted.",
                   "disabled": true
                 },
                 {
                   "key": "scope",
                   "value": "{{scope}}",
-                  "description": "Scope used to rank top posts.",
+                  "description": "Scope used to rank top posts. Send at most one value.",
                   "disabled": true
                 },
                 {
                   "key": "limit",
                   "value": "{{limit}}",
-                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "description": "Maximum results per source. Send at most one integer from 1 to 100; default 100.",
                   "disabled": true
                 },
                 {
                   "key": "offset",
                   "value": "{{offset}}",
-                  "description": "Specifies the offset of the limited results being returned.",
+                  "description": "Number of results to skip. Send at most one integer from 0 to 2147483647; default 0.",
                   "disabled": true
                 },
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "with_links",
                   "value": "{{with_links}}",
-                  "description": "Includes an array of all source links associated with the requested creator.",
+                  "description": "Includes all public source links associated with the requested creator. Connection status is shown only for sources assigned to the API Key.",
                   "disabled": true
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns top posts ranked by the requested stored lifetime metric. Existing channel authorizations enable connected-only content. Facebook returns an empty list without authorization. Ranking values retain their existing meaning; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided."
+            "description": "Returns top posts ranked by the requested stored lifetime metric. Existing channel authorizations enable connected-only content. Facebook returns an empty list without authorization. Ranking values retain their existing meaning; request the post stats endpoint for additional insights. Use data_access=public to exclude connected-account data. Each source reports data_access_used and its connection status. See the Public Data and Authorized Data response examples where provided.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted."
           },
           "response": []
         },
@@ -829,7 +830,7 @@
                 {
                   "key": "source",
                   "value": "{{source}}",
-                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
+                  "description": "Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook."
                 },
                 {
                   "key": "socialstats_creator_id",
@@ -869,7 +870,7 @@
                 {
                   "key": "offset",
                   "value": "{{offset}}",
-                  "description": "Specifies the offset of the limited results being returned.",
+                  "description": "Specifies the offset of the limited results being returned. Activity endpoints accept at most one integer for each of limit, offset, and tier. The limit must be from 1 to 100; offsets must be from 0 to 2147483647.",
                   "disabled": true
                 },
                 {
@@ -889,10 +890,16 @@
                   "value": "{{tier}}",
                   "description": "Filter Activities by importance. Tier 4 is the lowest tier that returns all activities. Tier 1 is the highest tier that returns only the most significant activities.",
                   "disabled": true
+                },
+                {
+                  "key": "data_access",
+                  "value": "auto",
+                  "description": "auto uses the selected key's current exact channel authorizations; public excludes private counters and comparison benchmarks, including alert rank before pagination.",
+                  "disabled": true
                 }
               ]
             },
-            "description": "Returns the latest activities for a creator filtered by source.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n- milestones (optional): Include Milestone Activities. Example: true.\n- comments (optional): Include Comment Activities. Example: true.\n- tier (optional): Filter Activities by importance. Tier 4 is the lowest tier that returns all activities. Tier 1 is the highest tier that returns only the most significant activities. Example: 4.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply."
+            "description": "Returns the latest activities for a creator filtered by source.\n\nA missing creator selected by a supported platform ID or exact username can be scheduled for discovery. Retry this request after collection completes. Endpoint/source permissions and quotas still apply.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source (required): Specifies the Socialstats sources being requested. Can be a comma separated list of individual sources or be set to 'all'. Surrounding whitespace on source names is allowed. Analytics are limited to sources assigned to the API key. Send source only once as a string, not an array or object. Creator-level endpoints support youtube, instagram, facebook, and tiktok. Public post-level content supports instagram, youtube, and tiktok. Authorized post-level content also supports facebook. Example: instagram,youtube,tiktok.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Activity endpoints accept at most one integer for each of limit, offset, and tier. The limit must be from 1 to 100; offsets must be from 0 to 2147483647. Example: 20.\n- milestones (optional): Include Milestone Activities. Example: true.\n- comments (optional): Include Comment Activities. Example: true.\n- tier (optional): Filter Activities by importance. Tier 4 is the lowest tier that returns all activities. Tier 1 is the highest tier that returns only the most significant activities. Example: 4.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics.\n\nActivity provenance: public milestone and Standout alerts use public counters and comparison posts. Private variants require current exact owning-channel authorization. data_access=public excludes private alerts and selects a proven public variant when available, including its rank before pagination. Legacy Standout alerts without proven public provenance require owner authorization, except public-only TikTok alerts. Instagram Story view milestones are excluded; authorized Standout Stories remain available. Comment alerts inherit their parent post access: Facebook posts and Instagram Stories require current exact owner-channel authorization, including alerts created before access changed."
           },
           "response": []
         },
@@ -926,18 +933,18 @@
                 {
                   "key": "limit",
                   "value": "{{limit}}",
-                  "description": "Specifies the limit of results being returned. The maximum limit is 100.",
+                  "description": "Number of search results to return (0–100). Zero uses the default of 20.",
                   "disabled": true
                 },
                 {
                   "key": "offset",
                   "value": "{{offset}}",
-                  "description": "Specifies the offset of the limited results being returned.",
+                  "description": "Number of search results to skip (0–2147483647).",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns creators matching a search query.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- q (required): Search Query. Example: DONT BLINK.\n- limit (optional): Specifies the limit of results being returned. The maximum limit is 100. Example: 20.\n- offset (optional): Specifies the offset of the limited results being returned. Example: 20.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
+            "description": "Returns existing creators matching a name, supported social profile URL, or music profile URL linked to a creator. A URL lookup does not create a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- q (required): Search Query. Example: DONT BLINK.\n- limit (optional): Number of search results to return (0–100). Zero uses the default of 20. Example: 20.\n- offset (optional): Number of search results to skip (0–2147483647). Example: 20.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503."
           },
           "response": []
         },
@@ -995,11 +1002,11 @@
                 {
                   "key": "link",
                   "value": "{{source_link}}",
-                  "description": "Link to be added."
+                  "description": "Link to be added. Send link once as a single string. Send each target identifier at most once as a single string. Send each selector only once across the query and request body. JSON bodies may be up to 32 KiB."
                 }
               ]
             },
-            "description": "Requests adding a social source link to a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- link (required): Link to be added. Example: https://www.instagram.com/dontblinkmusic.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics."
+            "description": "Requests adding a social source link to a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- link (required): Link to be added. Send link once as a single string. Send each target identifier at most once as a single string. Send each selector only once across the query and request body. JSON bodies may be up to 32 KiB. Example: https://www.instagram.com/dontblinkmusic.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics."
           },
           "response": []
         },
@@ -1057,11 +1064,11 @@
                 {
                   "key": "link",
                   "value": "{{source_link}}",
-                  "description": "Link to be deleted."
+                  "description": "Link to be deleted. Send link once as a single string. Send each target identifier at most once as a single string. Send each selector only once across the query and request body. JSON bodies may be up to 32 KiB."
                 }
               ]
             },
-            "description": "Requests removing a social source link from a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- link (required): Link to be deleted. Example: https://www.instagram.com/dontblinkmusic.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics."
+            "description": "Requests removing a social source link from a creator.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- link (required): Link to be deleted. Send link once as a single string. Send each target identifier at most once as a single string. Send each selector only once across the query and request body. JSON bodies may be up to 32 KiB. Example: https://www.instagram.com/dontblinkmusic.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404, 429, 500, 502, 503.\n\nPublic post totals retain the same meaning with and without authorization. Complete provider-specific values are under stats.authorized.data in authorized current responses and under authorized in each authorized history row. Missing values are omitted or null, not zero. Ordinary post counters use the latest equivalent measurement. TikTok profile counters prefer successful authorized measurements for four days, then accept newer public measurements. Provider corrections and changes in the measurement provider are not reliable organic growth. Revoked access immediately hides restricted metrics."
           },
           "response": []
         }
@@ -1125,27 +1132,27 @@
                 {
                   "key": "post_id",
                   "value": "{{youtube_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "with_comments",
                   "value": "false",
-                  "description": "Set true to include post comments when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post comments when available for this source."
                 },
                 {
                   "key": "with_locations",
                   "value": "false",
-                  "description": "Set true to include post location data when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post location data when available for this source."
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization."
+            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1204,29 +1211,29 @@
                 {
                   "key": "post_id",
                   "value": "{{youtube_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior."
+            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior.\n\nSend each date parameter at most once. An invalid date range is rejected before an entity slot is reserved.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1285,27 +1292,27 @@
                 {
                   "key": "post_id",
                   "value": "{{instagram_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "with_comments",
                   "value": "false",
-                  "description": "Set true to include post comments when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post comments when available for this source."
                 },
                 {
                   "key": "with_locations",
                   "value": "false",
-                  "description": "Set true to include post location data when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post location data when available for this source."
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization."
+            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1364,29 +1371,29 @@
                 {
                   "key": "post_id",
                   "value": "{{instagram_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior."
+            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior.\n\nConsent is checked for the exact provider and owning channel. Public Instagram responses omit photo/carousel views, shares, saves, reposts and Story metrics across current stats, histories and content lists. Rankings exclude posts whose requested metric is unavailable before pagination. A connection to one channel or collaborator does not authorize another owner. Explicit public mode excludes private insights even with an active grant. Public TikTok shares and observed zero counters remain available; missing counters are omitted.\n\nSend each date parameter at most once. An invalid date range is rejected before an entity slot is reserved.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1445,27 +1452,27 @@
                 {
                   "key": "post_id",
                   "value": "{{tiktok_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "with_comments",
                   "value": "false",
-                  "description": "Set true to include post comments when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post comments when available for this source."
                 },
                 {
                   "key": "with_locations",
                   "value": "false",
-                  "description": "Set true to include post location data when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post location data when available for this source."
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization."
+            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1524,29 +1531,29 @@
                 {
                   "key": "post_id",
                   "value": "{{tiktok_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization."
+            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nSend each date parameter at most once. An invalid date range is rejected before an entity slot is reserved.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1605,27 +1612,27 @@
                 {
                   "key": "post_id",
                   "value": "{{facebook_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "with_comments",
                   "value": "false",
-                  "description": "Set true to include post comments when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post comments when available for this source."
                 },
                 {
                   "key": "with_locations",
                   "value": "false",
-                  "description": "Set true to include post location data when available for this source."
+                  "description": "Send at most one true or false value; omit for false. Set true to include post location data when available for this source."
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization."
+            "description": "Returns current statistics and optional insights for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         },
@@ -1684,29 +1691,29 @@
                 {
                   "key": "post_id",
                   "value": "{{facebook_post_id}}",
-                  "description": "The source post ID."
+                  "description": "Send post_id once as an exact source post ID string (up to 300 characters). Internal whitespace, quotes, and control characters are invalid."
                 },
                 {
                   "key": "start_date",
                   "value": "{{start_date}}",
-                  "description": "Specifies the start date of the historic data being requested.",
+                  "description": "Specifies the start date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "end_date",
                   "value": "{{end_date}}",
-                  "description": "Specifies the end date of the historic data being requested.",
+                  "description": "Specifies the end date of the historic data being requested. Send each date parameter once as a single value. Arrays and objects are invalid.",
                   "disabled": true
                 },
                 {
                   "key": "data_access",
                   "value": "{{data_access}}",
-                  "description": "auto (default) uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
+                  "description": "Send at most one data_access value, auto or public; omit the parameter to use auto. auto uses this key's existing channel authorizations and falls back to public data where available. public excludes connected-account insights even when authorized. Member and entity keys reuse their owning member's active dashboard connections; entity keys also accept their agreement's grants. Other Enterprise key types use only their own grants. Facebook posts and Instagram stories have no public fallback.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior."
+            "description": "Returns historic statistics for a post belonging to the requested creator. With data_access=auto (default), existing channel authorization adds connected-account analytics. data_access=public returns public data only. The response envelope and common metric names stay the same; authorization-dependent fields are optional. Inspect data_access_used, is_authorized and authorization_status. A collaborator connection never grants access to another owner's private post insights. Facebook posts and Instagram stories require an active owner authorization and return 403 in public mode or without authorization.\n\nPublic YouTube, Instagram and Facebook post views, likes and comments select one complete history per post and metric. With automatic data access and permitted owner authorization, authorized history is preferred when that metric was observed within the seven UTC dates ending today; otherwise public history is used if available, retaining permitted older authorized history only when public history is absent. Public mode excludes authorized history. Missing counters are omitted, measured zero is valid, and no undated current total or mixed-source prefix/suffix is appended. Authorized daily counts accumulate only retained reporting periods, so a graph endpoint can differ from current stats. Shares and other private insights, including Instagram Story/photo insight views, retain their existing behavior.\n\nSend each date parameter at most once. An invalid date range is rejected before an entity slot is reserved.\n\nIf supplied, legacy limit and offset values must each be a single query value. Malformed shapes are rejected before quota accounting."
           },
           "response": []
         }
@@ -1773,24 +1780,24 @@
                 {
                   "key": "return_url",
                   "value": "{{return_url}}",
-                  "description": "URL that Socialstats should redirect the browser to after the platform callback.",
+                  "description": "URL that Socialstats redirects to after the platform callback. HTTPS is required except for localhost. Non-reserved query pairs and the fragment are preserved, including repeated/bracketed keys and empty flags. Callback result keys replace existing values once; absent optional callback fields remove older values for the same exact key.",
                   "disabled": true
                 },
                 {
                   "key": "external_reference",
                   "value": "{{external_reference}}",
-                  "description": "Customer-side identifier carried through the authorization flow and returned in status responses.",
+                  "description": "Optional customer-side string returned unchanged throughout creation, status responses and callbacks, including whitespace, punctuation and Unicode. Non-string values are rejected.",
                   "disabled": true
                 },
                 {
                   "key": "platform",
                   "value": "{{authorization_platform}}",
-                  "description": "Optional customer platform metadata stored with the authorization.",
+                  "description": "Optional customer platform string stored with the authorization.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Creates a short-lived platform OAuth URL that a creator can open to authorize backstage Socialstats access. The returned state token is carried through the callback and can be used for browser-side status polling without exposing the API Key. The creator must grant every configured provider scope; partial consent fails with `missing_scope`.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- source_id (required): The social source being authorized. Example: youtube.\n- return_url (optional): HTTPS URL that Socialstats should redirect the browser to after the platform callback. Localhost HTTP URLs are accepted for development. Example: https://customer.example.com/socialstats/oauth-return.\n- external_reference (optional): Customer-side identifier carried through the authorization flow and returned in status responses. Example: client_creator_123.\n- platform (optional): Customer platform metadata stored with the authorization. The provider flow remains server-side web OAuth. Example: web.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404."
+            "description": "Creates a short-lived platform OAuth URL that a creator can open to authorize backstage Socialstats access. The returned state token is carried through the callback and can be used for browser-side status polling without exposing the API Key. The creator must grant every configured provider scope; partial consent fails with `missing_scope`. Send exactly one creator selector and one source selector. Do not repeat selectors across the query and body.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- source_id (required): The social source being authorized. Example: youtube.\n- return_url (optional): HTTPS URL that Socialstats should redirect the browser to after the platform callback. Localhost HTTP URLs are accepted for development. Example: https://customer.example.com/socialstats/oauth-return.\n- external_reference (optional): Customer-side identifier carried through the authorization flow and returned in status responses. Example: client_creator_123.\n- platform (optional): Customer platform metadata stored with the authorization. The provider flow remains server-side web OAuth. Example: web.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 403, 404. Current agreement, creator/product, source and analytics permissions are rechecked before exchange and activation. Lost access returns `failed`; a source moved to another creator returns `wrong_profile`. Token, grant, member-confirmation and initial-sync request writes commit together. Connected Meta grants are limited to permitted sources and never reassign another creator profile. The existing job-request dispatcher hands off committed initial-sync requests; TikTok metadata refreshes in that sync. An attempt created before grant revocation cannot reactivate that grant, including a connected Meta source; create a new authorization URL to reauthorize after revocation. A later successful reauthorization does not make an older pending URL usable again. Canonical Creator merges retain grants and pending attempts under the surviving Creator, preserving provider identity and revocation history; current API Key and member subscription permissions remain required.\n\nCustomer external_reference strings are preserved unchanged, including whitespace, punctuation and Unicode; non-string values are rejected. Send `return_url`, `external_reference` and `platform` at most once each as strings, in either the query or body. Existing non-reserved return_url query pairs retain their order and encoding, including repeated/bracketed keys and empty flags. The fragment is preserved. Invalid return URLs are rejected at creation. The exact callback fields result, status, message, source_id, socialstats_creator_id and external_reference replace older values once; absent optional callback fields remove older values for their exact key."
           },
           "response": []
         },
@@ -1854,18 +1861,18 @@
                 {
                   "key": "include_inactive",
                   "value": "{{include_inactive}}",
-                  "description": "Include revoked, failed, and expired authorizations.",
+                  "description": "Include authorization history, including grants that no longer provide access.",
                   "disabled": true
                 },
                 {
                   "key": "state_token",
                   "value": "{{state_token}}",
-                  "description": "Short-lived OAuth state token used for browser-side status polling without an API Key.",
+                  "description": "Short-lived OAuth state token used for browser-side status polling without an API Key. Use the original token without changes.",
                   "disabled": true
                 }
               ]
             },
-            "description": "Lists channel authorizations available to the API Key, including the owning member's active dashboard confirmations for member and entity keys. Inherited entries have no grant id and must be disconnected in the dashboard. Entity keys prefer an active agreement grant when both paths exist. If `state_token` is supplied instead of an API Key, returns only the short-lived status for that authorization attempt.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source_id (optional): Filter authorizations by social source. Example: youtube.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- include_inactive (optional): Include revoked, failed, and expired authorizations. Example: true.\n- state_token (optional): Short-lived OAuth state token used for browser-side status polling without an API Key. Example: uR3h5Yy4s....\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 401, 404.\n\nThis endpoint can be called without an API Key only when using a valid short-lived OAuth state token."
+            "description": "Lists channel authorizations available to the API Key, including the owning member's active dashboard confirmations for sources assigned to a member or entity key with creator analytics access. Inherited entries have no grant id and must be disconnected in the dashboard. Entity keys prefer an active agreement grant when both paths exist. If `state_token` is supplied instead of an API Key, returns the short-lived status for that attempt. Send exactly one unmodified state token; an invalid token does not fall back to the authenticated grant list. Grant details are available only for a successful attempt while its grant and provider token are active and the API key still has access to that creator and source. The attempt status itself records the original outcome. Authenticated lists retain agreement grant history after access changes. With include_inactive=false, only entries that currently provide access are returned. For authenticated lists, omit unused filters and send at most one creator selector and one source selector. If supplied, include_inactive must be true or false.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- source_id (optional): Filter authorizations by social source. Example: youtube.\n- socialstats_creator_id (optional): The public 8-character Socialstats ID. Supply this or exactly one source-specific creator selector.\n- instagram_creator_id (optional): Instagram internal ID or exact username. Use only one creator selector per request.\n- facebook_creator_id (optional): Facebook internal ID or exact username. Use only one creator selector per request.\n- youtube_creator_id (optional): YouTube channel ID or exact channel handle. Use only one creator selector per request.\n- tiktok_creator_id (optional): TikTok internal ID or exact username. Use only one creator selector per request.\n- include_inactive (optional): Include authorization history, including grants that no longer provide access. Example: true.\n- state_token (optional): Short-lived OAuth state token used for browser-side status polling without an API Key. Use the original token without changes. Example: example-OAuth-state-token.\n\nHeaders:\n- Accept-Encoding: gzip, deflate, br\n\nDocumented responses: 200, 400, 401, 404.\n\nThis endpoint can be called without an API Key only when using a valid short-lived OAuth state token."
           },
           "response": []
         },
@@ -1885,7 +1892,7 @@
               ],
               "query": []
             },
-            "description": "Returns one backstage authorization grant for the API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
+            "description": "Returns one backstage authorization grant for the API Key. Owned historical grants remain visible and revocable after access changes. Use is_authorized to check current access. Use the positive decimal grant ID from the authorization list. Malformed IDs return HTTP 404.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
           },
           "response": []
         },
@@ -1905,7 +1912,7 @@
               ],
               "query": []
             },
-            "description": "Revokes this API Key's backstage access grant. The shared platform token is not revoked for other authorized customers or members. Entity keys retain access through their owning member's active dashboard connection, if one exists.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
+            "description": "Revokes this API Key's backstage access grant. The shared platform token is not revoked for other authorized customers or members. Entity keys retain access through their owning member's active dashboard connection, if one exists. Use the positive decimal grant ID from the authorization list. Malformed IDs return HTTP 404.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 401, 404."
           },
           "response": []
         },
@@ -1944,10 +1951,16 @@
                   "value": "{{oauth_error}}",
                   "description": "",
                   "disabled": true
+                },
+                {
+                  "key": "error_description",
+                  "value": "",
+                  "description": "Optional provider message describing why authorization failed.",
+                  "disabled": true
                 }
               ]
             },
-            "description": "Provider callback URL used by YouTube, Facebook/Instagram, and TikTok. This endpoint does not require an API Key because attribution is performed with the short-lived OAuth state token.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- state (required)\n- code (optional)\n- error (optional)\n\nDocumented responses: 200, 302, 404."
+            "description": "Provider callback URL used by YouTube, Facebook/Instagram, and TikTok. This endpoint does not require an API Key because attribution is performed with the short-lived OAuth state token.\nGenerated from docs/socialstats_openapi.yaml.\n\nQuery parameters:\n- state (required)\n- code (optional)\n- error (optional)\n- error_description (optional)\n\nDocumented responses: 200, 302, 400, 404. A pending callback requires either one authorization code or a provider error; malformed inputs leave the attempt unchanged. A callback sent to a different provider path returns `wrong_source` and leaves the original attempt available to the requested provider. A callback with a legacy invalid return URL returns its result as JSON. Current agreement, creator/product, source and analytics permissions are rechecked before exchange and activation. Lost access returns `failed`; a source moved to another creator returns `wrong_profile`. Token, grant, member-confirmation and initial-sync request writes commit together. Connected Meta grants are limited to permitted sources and never reassign another creator profile. The existing job-request dispatcher hands off committed initial-sync requests; TikTok metadata refreshes in that sync. An attempt created before grant revocation cannot reactivate that grant, including a connected Meta source; create a new authorization URL to reauthorize after revocation. A later successful reauthorization does not make an older pending URL usable again. Canonical Creator merges retain grants and pending attempts under the surviving Creator, preserving provider identity and revocation history; current API Key and member subscription permissions remain required.\n\nCustomer external_reference strings are preserved unchanged, including whitespace, punctuation and Unicode; non-string values are rejected. Existing non-reserved return_url query pairs retain their order and encoding, including repeated/bracketed keys and empty flags. The fragment is preserved. Invalid return URLs are rejected at creation. The exact callback fields result, status, message, source_id, socialstats_creator_id and external_reference replace older values once; absent optional callback fields remove older values for their exact key."
           },
           "response": []
         },
@@ -1970,7 +1983,7 @@
               ],
               "query": []
             },
-            "description": "Returns the status of one short-lived OAuth attempt without requiring an API Key.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 404."
+            "description": "Returns the status of one short-lived OAuth attempt without requiring an API Key. The state token in the path must match the original token exactly.\nGenerated from docs/socialstats_openapi.yaml.\n\nDocumented responses: 200, 404."
           },
           "response": []
         }
